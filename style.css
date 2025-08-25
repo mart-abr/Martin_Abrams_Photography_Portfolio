@@ -368,11 +368,12 @@ footer {
     z-index: 2100;
   }
 
+  /* Move arrows outside the image */
   .lightbox-prev {
-    left: 10px; /* Slightly inside compared to PC */
+    left: -40px; /* outside to the left */
   }
 
   .lightbox-next {
-    right: 10px;
+    right: -40px; /* outside to the right */
   }
 }
