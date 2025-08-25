@@ -260,10 +260,34 @@ footer {
 }
 
 /* ===================== */
-/* Lightbox Arrows - Hidden initially */
-.lightbox-prev,
-.lightbox-next {
-  display: none !important;
+/* Lightbox Arrows - PC */
+@media (min-width: 769px) {
+  .lightbox-prev,
+  .lightbox-next {
+    display: block !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3em;
+    color: #a6c48a;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+    z-index: 2100;
+  }
+
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    color: #4a801f;
+  }
+
+  .lightbox-prev {
+    left: 20px;
+  }
+
+  .lightbox-next {
+    right: 20px;
+  }
 }
 
 /* ===================== */
@@ -320,42 +344,10 @@ footer {
   section {
     scroll-margin-top: 120px; /* increased for mobile header */
   }
-}
 
-/* ===================== */
-/* Lightbox Arrows - PC Only */
-@media (min-width: 769px) {
+  /* Hide PC arrows on mobile */
   .lightbox-prev,
   .lightbox-next {
-    display: flex !important;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 3em;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 10px;
-    user-select: none;
-    z-index: 2100;
-    transition: color 0.3s ease;
-  }
-
-  .lightbox-prev:hover,
-  .lightbox-next:hover {
-    color: #a6c48a;
-  }
-
-  .lightbox-prev {
-    left: 10px; /* far left */
-  }
-
-  .lightbox-next {
-    right: 10px; /* far right */
-  }
-
-  /* Ensure arrows don’t cover the image completely */
-  .lightbox-img {
-    margin: 0 60px; /* leave space for arrows */
+    display: none !important;
   }
 }
