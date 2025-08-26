@@ -171,7 +171,7 @@ section {
   display: block;
   text-align: center;
   background: transparent;
-  padding: 2px 0;
+  padding: 4px 5px;
 }
 
 /* ===================== */
@@ -247,6 +247,7 @@ footer {
   font-size: 1rem;
   margin-top: 10px;
   text-align: center;
+  padding: 5px 10px;
 }
 
 .lightbox .close {
@@ -296,6 +297,7 @@ footer {
   .photo-item {
     width: 45%;
     height: auto;
+    margin-bottom: 20px;
   }
 
   .profile-pic {
@@ -340,12 +342,10 @@ footer {
     font-size: 0.85rem;
   }
 
-  /* Mobile-specific scroll offset for sticky header */
   section {
-    scroll-margin-top: 120px; /* increased for mobile header */
+    scroll-margin-top: 120px;
   }
 
-  /* Hide PC arrows on mobile */
   .lightbox-prev,
   .lightbox-next {
     display: none !important;
@@ -353,8 +353,46 @@ footer {
 }
 
 /* ===================== */
-/* Tablet Lightbox Arrows */
+/* Tablet Lightbox & Layout */
 @media (min-width: 481px) and (max-width: 768px) {
+  .photo-item {
+    width: 48%;
+    margin-bottom: 25px;
+  }
+
+  .photo-item .caption {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .profile-pic {
+    width: 130px;
+    height: 130px;
+  }
+
+  #hero {
+    padding: 30px 15px 50px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+
+  .category-btn,
+  .subcategory-btn {
+    padding: 10px 18px;
+    font-size: 1rem;
+    margin: 6px;
+  }
+
+  section {
+    scroll-margin-top: 100px;
+  }
+
   .lightbox-prev,
   .lightbox-next {
     display: block !important;
@@ -368,12 +406,11 @@ footer {
     z-index: 2100;
   }
 
-  /* Move arrows outside the image */
   .lightbox-prev {
-    left: -40px; /* outside to the left */
+    left: -55px;
   }
 
   .lightbox-next {
-    right: -40px; /* outside to the right */
+    right: -55px;
   }
 }
