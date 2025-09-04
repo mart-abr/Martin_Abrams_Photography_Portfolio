@@ -9,7 +9,10 @@ body {
 
 h1, h2 {
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+<<<<<<< HEAD
   color: #4a5d23; /* headings in dark green */
+=======
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
 }
 
 /* ===================== */
@@ -61,19 +64,26 @@ nav ul li a:hover {
 /* Hero Section */
 #hero {
   text-align: center;
+<<<<<<< HEAD
   padding: 20px 20px 30px;
+=======
+  padding: 40px 20px 60px;
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   background: url('images/landscape1.jpg') center/cover no-repeat;
   color: #f0f0e3;
   text-shadow: 2px 2px 4px #1a1a1a;
   position: relative;
 }
 
+<<<<<<< HEAD
 #hero h1 {
   color: #fff; /* white hero heading */
   font-size: 2.5em; /* slightly bigger */
   margin-bottom: 10px;
 }
 
+=======
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
 .profile-pic {
   width: 150px;
   height: 150px;
@@ -81,7 +91,11 @@ nav ul li a:hover {
   border-radius: 50%;
   border: 3px solid #a6c48a;
   box-shadow: 0 0 10px #556b2f;
+<<<<<<< HEAD
   margin: 10px auto;
+=======
+  margin: 20px auto;
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
 }
 
 .profile-pic img {
@@ -97,6 +111,7 @@ section {
   max-width: 1000px;
   margin: 30px auto;
   padding: 0 20px;
+<<<<<<< HEAD
   scroll-margin-top: 80px;
 }
 
@@ -106,6 +121,9 @@ section {
   background-color: #e0ebd8;
   padding: 30px 20px;
   border-radius: 12px;
+=======
+  scroll-margin-top: 80px; /* Fix for sticky header on PC */
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
 }
 
 /* ===================== */
@@ -154,7 +172,11 @@ section {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 30px;
+<<<<<<< HEAD
   border-top: 1px solid #b0c28c; /* slightly darker green lines */
+=======
+  border-top: 1px solid #ddd;
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   padding-top: 20px;
 }
 
@@ -225,12 +247,18 @@ footer {
 /* Effects (Hover Glow & Lightbox) */
 .photo-item:hover {
   transform: scale(1.05);
+<<<<<<< HEAD
   box-shadow: 0 8px 25px rgba(74, 93, 35, 0.7); /* stronger green glow on hover */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ===================== */
 /* Lightbox */
+=======
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
 .lightbox {
   display: none;
   position: fixed;
@@ -316,7 +344,10 @@ footer {
     width: 45%;
     height: auto;
     margin-bottom: 20px;
+<<<<<<< HEAD
     box-shadow: 0 6px 15px rgba(74, 93, 35, 0.4); /* slightly weaker glow on tablet */
+=======
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   }
 
   .profile-pic {
@@ -336,11 +367,18 @@ footer {
 @media (max-width: 480px) {
   .photo-item {
     width: 90%;
+<<<<<<< HEAD
     box-shadow: 0 4px 10px rgba(74, 93, 35, 0.3); /* subtle glow on mobile */
   }
 
   #hero {
     padding: 10px 10px 20px;
+=======
+  }
+
+  #hero {
+    padding: 20px 10px 40px;
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   }
 
   .profile-pic {
@@ -378,7 +416,10 @@ footer {
   .photo-item {
     width: 48%;
     margin-bottom: 25px;
+<<<<<<< HEAD
     box-shadow: 0 6px 18px rgba(74, 93, 35, 0.5); /* medium glow on tablet */
+=======
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   }
 
   .photo-item .caption {
@@ -392,7 +433,11 @@ footer {
   }
 
   #hero {
+<<<<<<< HEAD
     padding: 15px 15px 35px;
+=======
+    padding: 30px 15px 50px;
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
   }
 
   h1 {
@@ -434,4 +479,8 @@ footer {
   .lightbox-next {
     right: -55px;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0bce13b322d10b034b64b74db9c5d3313fd3c7ba
