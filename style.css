@@ -92,6 +92,14 @@ nav ul li a:hover {
 }
 
 /* ===================== */
+/* Subtitle increase on PC */
+@media (min-width: 769px) {
+  #hero p {
+    font-size: 1.3em; /* adjust as needed */
+  }
+}
+
+/* ===================== */
 /* Sections */
 section {
   max-width: 1000px;
