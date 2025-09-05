@@ -74,6 +74,14 @@ nav ul li a:hover {
   margin-bottom: 10px;
 }
 
+#hero p {
+  font-size: 1.3em; /* increased size for "Nature Inspired..." */
+  line-height: 1.4;
+  margin: 10px 0 0;
+  color: #f0f0e3;
+  text-shadow: 2px 2px 4px #1a1a1a; /* stronger shadow */
+}
+
 .profile-pic {
   width: 150px;
   height: 150px;
@@ -89,14 +97,6 @@ nav ul li a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* ===================== */
-/* Subtitle increase on PC */
-@media (min-width: 769px) {
-  #hero p {
-    font-size: 1.3em; /* adjust as needed */
-  }
 }
 
 /* ===================== */
@@ -314,6 +314,20 @@ footer {
 
   .lightbox-next {
     right: 20px;
+  }
+
+  /* ===================== */
+  /* Hero Height Reduction on PC */
+  #hero {
+    padding-top: 10px; /* reduced from original 20px */
+    padding-bottom: 30px;
+  }
+
+  /* ===================== */
+  /* Reduce Gallery Background Top Padding on PC */
+  #gallery {
+    padding-top: 20px; /* shaved one-third off */
+    padding-bottom: 30px;
   }
 }
 
