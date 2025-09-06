@@ -82,6 +82,8 @@ nav ul li a:hover {
   text-shadow: 2px 2px 4px #1a1a1a; /* stronger shadow */
 }
 
+/* ===================== */
+/* Profile Picture */
 .profile-pic {
   width: 150px;
   height: 150px;
@@ -89,7 +91,7 @@ nav ul li a:hover {
   border-radius: 50%;
   border: 3px solid #a6c48a;
   box-shadow: 0 0 10px #556b2f;
-  margin: 10px auto;
+  margin: 20px auto 0; /* pushed down slightly */
 }
 
 .profile-pic img {
@@ -161,9 +163,21 @@ section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 30px;
-  border-top: 1px solid #b0c28c; /* slightly darker green lines */
-  padding-top: 20px;
+  padding: 28px 0;             /* equal space above & below photos */
+  border-top: 1px solid #b0c28c; /* single line */
+  margin-bottom: 0;             /* remove extra gap under group */
+}
+
+@media (max-width: 768px) {
+  .photo-group {
+    padding: 20px 0;           /* slightly smaller spacing on tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-group {
+    padding: 16px 0;           /* smaller spacing on mobile */
+  }
 }
 
 /* ===================== */
@@ -233,7 +247,7 @@ footer {
 /* Effects (Hover Glow & Lightbox) */
 .photo-item:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(74, 93, 35, 0.7); /* stronger green glow on hover */
+  box-shadow: 0 8px 25px rgba(74, 93, 35, 0.7);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -246,10 +260,10 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.9);
+  background: #121212; /* fully opaque dark grey */
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 9999; /* ensure on top of everything */
   opacity: 0;
   transition: opacity 0.3s ease;
   flex-direction: column;
@@ -316,17 +330,13 @@ footer {
     right: 20px;
   }
 
-  /* ===================== */
-  /* Hero Height Reduction on PC */
   #hero {
-    padding-top: 10px; /* reduced from original 20px */
+    padding-top: 10px;
     padding-bottom: 30px;
   }
 
-  /* ===================== */
-  /* Reduce Gallery Background Top Padding on PC */
   #gallery {
-    padding-top: 20px; /* shaved one-third off */
+    padding-top: 20px;
     padding-bottom: 30px;
   }
 }
@@ -338,12 +348,13 @@ footer {
     width: 45%;
     height: auto;
     margin-bottom: 20px;
-    box-shadow: 0 6px 15px rgba(74, 93, 35, 0.4); /* slightly weaker glow on tablet */
+    box-shadow: 0 6px 15px rgba(74, 93, 35, 0.4);
   }
 
   .profile-pic {
     width: 120px;
     height: 120px;
+    margin-top: 25px; /* pushed down on tablet */
   }
 
   header {
@@ -358,7 +369,7 @@ footer {
 @media (max-width: 480px) {
   .photo-item {
     width: 90%;
-    box-shadow: 0 4px 10px rgba(74, 93, 35, 0.3); /* subtle glow on mobile */
+    box-shadow: 0 4px 10px rgba(74, 93, 35, 0.3);
   }
 
   #hero {
@@ -368,6 +379,7 @@ footer {
   .profile-pic {
     width: 100px;
     height: 100px;
+    margin-top: 20px; /* pushed down on mobile */
   }
 
   h1 {
@@ -400,7 +412,7 @@ footer {
   .photo-item {
     width: 48%;
     margin-bottom: 25px;
-    box-shadow: 0 6px 18px rgba(74, 93, 35, 0.5); /* medium glow on tablet */
+    box-shadow: 0 6px 18px rgba(74, 93, 35, 0.5);
   }
 
   .photo-item .caption {
