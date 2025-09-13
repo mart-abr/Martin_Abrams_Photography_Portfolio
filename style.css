@@ -469,3 +469,42 @@ footer {
     right: -55px;
   }
 }
+
+#fullscreen-toggle {
+  font-family: "Georgia", serif;
+  position: fixed;           /* floats above the photo */
+  top: 80px;                 /* below the X */
+  right: 30px;               /* aligned with X */
+  width: 100px;              /* fixed circle width */
+  height: 100px;             /* fixed circle height */
+  background-color: rgba(245, 244, 240, 0.8); /* grey inside */
+  border: 2px solid #4a5d23; /* green border */
+  border-radius: 50%;        /* perfect circle */
+  padding: 10px;
+  color: #4a5d23;            /* dark green text */
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 2200;
+  transition: all 0.3s ease;
+  text-align: center;
+  line-height: 1.2;
+  white-space: pre-line;     /* allows multi-line text */
+  display: flex;
+  justify-content: center;
+  align-items: center;       /* vertically and horizontally centered text */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#fullscreen-toggle:hover {
+  background-color: #4a5d23; /* green fill on hover */
+  color: #fff;               /* white text */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* PC Only */
+@media (max-width: 768px) {
+  #fullscreen-toggle {
+    display: none;
+  }
+}
+

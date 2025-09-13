@@ -31,7 +31,7 @@
 
 <section id="hero">
   <h1>Welcome to Martin Abrams Photography</h1>
-  <p>Nature-inspired, elegant photography capturing moments since 2001.</p>
+  <p>Nature-inspired, elegant photography capturing moments since 2001</p>
   <div class="profile-pic">
     <img src="images/Profile/martin-profile-02.jpg.jpg" alt="Martin Abrams" />
   </div>
@@ -420,9 +420,11 @@ Through my work, I aim to share a perspective shaped by two worlds — the quiet
 <!-- Lightbox -->
 <div id="lightbox" class="lightbox">
   <span class="close">&times;</span>
+  <button id="fullscreen-toggle">Full Screen</button> <!-- NEW -->
   <img class="lightbox-img" src="" alt="Full size photo">
   <div class="lightbox-caption"></div>
 </div>
+
 
 <script>
 // =====================
@@ -523,7 +525,8 @@ function showPrev() {
   updateLightbox();
 }
 
-document.querySelectorAll(".photo-item img").forEach((img, idx) => {
+// Open lightbox on image click
+document.querySelectorAll(".photo-item img").forEach((img) => {
   img.addEventListener("click", () => {
     const visibleImgs = getVisibleImages();
     const index = visibleImgs.indexOf(img);
@@ -531,10 +534,17 @@ document.querySelectorAll(".photo-item img").forEach((img, idx) => {
   });
 });
 
-lightboxClose.addEventListener("click", () => lightbox.classList.remove("show"));
+// Close via X button
+lightboxClose.addEventListener("click", () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  lightbox.classList.remove("show");
+});
+
+// Navigate with arrows
 prevBtn.addEventListener("click", e => { e.stopPropagation(); showPrev(); });
 nextBtn.addEventListener("click", e => { e.stopPropagation(); showNext(); });
 
+// Keyboard navigation
 document.addEventListener("keydown", e => {
   if (!lightbox.classList.contains("show")) return;
   if (e.key === "Escape") lightbox.classList.remove("show");
@@ -542,8 +552,11 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") showPrev();
 });
 
-lightbox.addEventListener("click", e => {
-  if (e.target === lightbox) lightbox.classList.remove("show");
+// Only close lightbox when clicking X button, not blank space
+// (Blank space clicks now do nothing)
+lightbox.addEventListener("click", (e) => {
+  // Do nothing if user clicks outside image or controls
+  // Closing is only done via X button
 });
 
 // Swipe support
@@ -557,5 +570,26 @@ lightboxImg.addEventListener("touchend", e => {
   if (endX - startX > 50) showPrev();
   startX = 0;
   endX = 0;
+});
+
+// Fullscreen toggle
+const fullscreenBtn = document.getElementById("fullscreen-toggle");
+
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    lightbox.requestFullscreen();
+    fullscreenBtn.textContent = "Exit\nFull\nScreen"; // 3 lines
+  } else {
+    document.exitFullscreen();
+    fullscreenBtn.textContent = "Full\nScreen";        // 2 lines
+  }
+});
+
+
+
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement) {
+    fullscreenBtn.textContent = "Full Screen";
+  }
 });
 </script>

@@ -401,63 +401,21 @@ Through my work, I aim to share a perspective shaped by two worlds — the quiet
   <p>&copy; 2025 Martin Abrams Photography</p>
 </footer>
 
+
 <!-- Lightbox -->
 <div id="lightbox" class="lightbox">
   <span class="close">&times;</span>
+  <button class="lightbox-fake-fullscreen">Full Screen</button> <!-- add this -->
   <img class="lightbox-img" src="" alt="Full size photo">
   <div class="lightbox-caption"></div>
 </div>
 
+
+
 <script>
-// =====================
-// Category & Subcategory Filtering
-// =====================
-const categoryButtons = document.querySelectorAll(".category-btn");
-const subcategoryGroups = document.querySelectorAll(".subcategories");
-const photoGroups = document.querySelectorAll(".photo-group");
-const subcategoryButtons = document.querySelectorAll(".subcategory-btn");
-
-let activeCategory = "all";
-let activeSubcategory = null;
-
-categoryButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    activeCategory = btn.dataset.category;
-    activeSubcategory = null;
-
-    categoryButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    subcategoryGroups.forEach(g => g.style.display = "none");
-    const activeSubcatGroup = document.querySelector(`.${activeCategory}-subcategories`);
-    if (activeSubcatGroup) activeSubcatGroup.style.display = "block";
-
-    subcategoryButtons.forEach(sb => sb.classList.remove("active"));
-
-    photoGroups.forEach(pg => {
-      pg.style.display = (activeCategory === "all" || pg.classList.contains(activeCategory)) ? "flex" : "none";
-    });
-  });
-});
-
-subcategoryButtons.forEach(sb => {
-  sb.addEventListener("click", () => {
-    activeSubcategory = sb.dataset.subcategory;
-    sb.parentElement.querySelectorAll(".subcategory-btn").forEach(b => b.classList.remove("active"));
-    sb.classList.add("active");
-
-    photoGroups.forEach(pg => {
-      if (!activeCategory || activeCategory === "all") {
-        pg.style.display = pg.classList.contains(activeSubcategory) ? "flex" : "none";
-      } else {
-        pg.style.display = (pg.classList.contains(activeCategory) && pg.classList.contains(activeSubcategory)) ? "flex" : "none";
-      }
-    });
-  });
-});
 
 // =====================
-// Lightbox with swipe & dynamic images
+// Lightbox WITHOUT browser fullscreen
 // =====================
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.querySelector(".lightbox-img");
@@ -478,7 +436,8 @@ let currentImages = [];
 let currentIndex = 0;
 
 function getVisibleImages() {
-  return Array.from(document.querySelectorAll(".photo-item img")).filter(i => i.closest(".photo-group").style.display !== "none");
+  return Array.from(document.querySelectorAll(".photo-item img"))
+              .filter(i => i.closest(".photo-group").style.display !== "none");
 }
 
 function openLightbox(index) {
@@ -486,6 +445,7 @@ function openLightbox(index) {
   currentIndex = index;
   updateLightbox();
   lightbox.classList.add("show");
+  document.body.style.overflow = "hidden"; // prevent background scroll
 }
 
 function updateLightbox() {
@@ -515,19 +475,107 @@ document.querySelectorAll(".photo-item img").forEach((img, idx) => {
   });
 });
 
-lightboxClose.addEventListener("click", () => lightbox.classList.remove("show"));
-prevBtn.addEventListener("click", e => { e.stopPropagation(); showPrev(); });
-nextBtn.addEventListener("click", e => { e.stopPropagation(); showNext(); });
 
-document.addEventListener("keydown", e => {
-  if (!lightbox.classList.contains("show")) return;
-  if (e.key === "Escape") lightbox.classList.remove("show");
-  if (e.key === "ArrowRight") showNext();
-  if (e.key === "ArrowLeft") showPrev();
+// =====================
+// Lightbox JS - Full Updated
+// =====================
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.querySelector(".lightbox-img");
+const lightboxCaption = document.querySelector(".lightbox-caption");
+const lightboxClose = document.querySelector(".lightbox .close");
+
+// Create navigation arrows
+const prevBtn = document.createElement("span");
+prevBtn.className = "lightbox-prev";
+prevBtn.innerHTML = "&#10094;"; // left arrow
+lightbox.appendChild(prevBtn);
+
+const nextBtn = document.createElement("span");
+nextBtn.className = "lightbox-next";
+nextBtn.innerHTML = "&#10095;"; // right arrow
+lightbox.appendChild(nextBtn);
+
+let currentImages = [];
+let currentIndex = 0;
+
+// Get only visible images for current category/subcategory
+function getVisibleImages() {
+  return Array.from(document.querySelectorAll(".photo-item img"))
+              .filter(i => i.closest(".photo-group").style.display !== "none");
+}
+
+// Open lightbox
+function openLightbox(index) {
+  currentImages = getVisibleImages();
+  currentIndex = index;
+  updateLightbox();
+  lightbox.classList.add("show");
+  document.body.classList.add("lightbox-active"); // simulate fullscreen
+}
+
+
+// Update lightbox image and caption
+function updateLightbox() {
+  if (currentImages.length === 0) return;
+  lightboxImg.src = currentImages[currentIndex].src;
+  const caption = currentImages[currentIndex].parentElement.querySelector(".caption");
+  lightboxCaption.textContent = caption ? caption.textContent : "";
+}
+
+// Show next image
+function showNext() {
+  if (currentImages.length === 0) return;
+  currentIndex = (currentIndex + 1) % currentImages.length;
+  updateLightbox();
+}
+
+// Show previous image
+function showPrev() {
+  if (currentImages.length === 0) return;
+  currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+  updateLightbox();
+}
+
+// Close lightbox
+function closeLightbox() {
+  lightbox.classList.remove("show");
+  document.body.classList.remove("lightbox-active"); // restore scroll
+  currentImages = [];
+  currentIndex = 0;
+}
+
+// Open lightbox on image click
+document.querySelectorAll(".photo-item img").forEach(img => {
+  img.addEventListener("click", () => {
+    const visibleImgs = getVisibleImages();
+    const index = visibleImgs.indexOf(img);
+    openLightbox(index);
+  });
 });
 
-lightbox.addEventListener("click", e => {
-  if (e.target === lightbox) lightbox.classList.remove("show");
+// Close lightbox on X or clicking overlay
+lightboxClose.addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", e => { 
+  if (e.target === lightbox) closeLightbox(); 
+});
+
+// Navigation arrows
+prevBtn.addEventListener("click", e => { 
+  e.stopPropagation(); 
+  showPrev(); 
+});
+nextBtn.addEventListener("click", e => { 
+  e.stopPropagation(); 
+  showNext(); 
+});
+
+// Keyboard navigation
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("show")) return;
+  if (e.key === "ArrowRight") showNext();
+  if (e.key === "ArrowLeft") showPrev();
+  if (e.key === "Escape") closeLightbox();
 });
 
 // Swipe support
@@ -536,10 +584,25 @@ let endX = 0;
 
 lightboxImg.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
 lightboxImg.addEventListener("touchmove", e => { endX = e.touches[0].clientX; });
-lightboxImg.addEventListener("touchend", e => {
+lightboxImg.addEventListener("touchend", () => {
   if (startX - endX > 50) showNext();
   if (endX - startX > 50) showPrev();
   startX = 0;
   endX = 0;
 });
+
+
+const fakeFullScreenBtn = document.querySelector(".lightbox-fake-fullscreen");
+
+fakeFullScreenBtn.addEventListener("click", () => {
+  if (!lightbox.classList.contains("show")) return;
+  // Ensure current photo stays
+  document.body.classList.add("lightbox-active");
+  lightbox.classList.add("show");
+});
+
+
+
+
+
 </script>
