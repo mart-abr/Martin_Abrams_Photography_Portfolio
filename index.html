@@ -426,6 +426,29 @@ Through my work, I aim to share a perspective shaped by two worlds — the quiet
 </div>
 
 
+<style>
+/* Active thumbnail highlight with gentle pulse */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 2px 0 #4CAF50;
+  }
+  50% {
+    box-shadow: 0 0 6px 2px #4CAF50;
+  }
+  100% {
+    box-shadow: 0 0 2px 0 #4CAF50;
+  }
+}
+
+.photo-item img.active-thumb {
+  outline: 2px solid #4CAF50; /* gentle green border */
+  outline-offset: 2px;
+  border-radius: 4px; /* slight rounding */
+  transition: outline 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 1.5s infinite ease-in-out; /* soft pulse */
+}
+</style>
+
 <script>
 // =====================
 // Category & Subcategory Filtering
@@ -475,7 +498,7 @@ subcategoryButtons.forEach(sb => {
 });
 
 // =====================
-// Lightbox with swipe & dynamic images
+// Lightbox with Last Viewed Tracking, Scroll, and Thumbnail Highlighting
 // =====================
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.querySelector(".lightbox-img");
@@ -494,23 +517,59 @@ lightbox.appendChild(nextBtn);
 
 let currentImages = [];
 let currentIndex = 0;
+let currentGalleryKey = "all";
+let lastViewedIndex = {}; // remembers last viewed per gallery/subcategory
 
 function getVisibleImages() {
-  return Array.from(document.querySelectorAll(".photo-item img")).filter(i => i.closest(".photo-group").style.display !== "none");
+  return Array.from(document.querySelectorAll(".photo-item img"))
+              .filter(img => img.closest(".photo-group").style.display !== "none");
 }
 
+function getGalleryKey() {
+  if (activeSubcategory) return `${activeCategory}-${activeSubcategory}`;
+  if (activeCategory && activeCategory !== "all") return activeCategory;
+  return "all";
+}
+
+// =====================
+// Highlight current thumbnail
+// =====================
+function highlightThumbnail() {
+  getVisibleImages().forEach(img => img.classList.remove("active-thumb"));
+  const currentImg = currentImages[currentIndex];
+  if (currentImg) currentImg.classList.add("active-thumb");
+}
+
+// Open lightbox on clicked thumbnail
 function openLightbox(index) {
+  currentGalleryKey = getGalleryKey();
   currentImages = getVisibleImages();
+
   currentIndex = index;
+  updateLightbox();
+  lightbox.classList.add("show");
+}
+
+// Reopen last viewed photo for current gallery
+function openLastViewed() {
+  currentGalleryKey = getGalleryKey();
+  currentImages = getVisibleImages();
+
+  currentIndex = lastViewedIndex[currentGalleryKey] ?? 0;
   updateLightbox();
   lightbox.classList.add("show");
 }
 
 function updateLightbox() {
   if (currentImages.length === 0) return;
+
   lightboxImg.src = currentImages[currentIndex].src;
   const caption = currentImages[currentIndex].parentElement.querySelector(".caption");
   lightboxCaption.textContent = caption ? caption.textContent : "";
+
+  lastViewedIndex[currentGalleryKey] = currentIndex;
+
+  highlightThumbnail();
 }
 
 function showNext() {
@@ -525,8 +584,8 @@ function showPrev() {
   updateLightbox();
 }
 
-// Open lightbox on image click
-document.querySelectorAll(".photo-item img").forEach((img) => {
+// Thumbnail click
+document.querySelectorAll(".photo-item img").forEach(img => {
   img.addEventListener("click", () => {
     const visibleImgs = getVisibleImages();
     const index = visibleImgs.indexOf(img);
@@ -534,10 +593,18 @@ document.querySelectorAll(".photo-item img").forEach((img) => {
   });
 });
 
-// Close via X button
+// Close lightbox
 lightboxClose.addEventListener("click", () => {
   if (document.fullscreenElement) document.exitFullscreen();
   lightbox.classList.remove("show");
+
+  const galleryKey = getGalleryKey();
+  const lastIndex = lastViewedIndex[galleryKey];
+  if (lastIndex !== undefined) {
+    const visibleImgs = getVisibleImages();
+    const lastImg = visibleImgs[lastIndex];
+    if (lastImg) lastImg.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 });
 
 // Navigate with arrows
@@ -552,17 +619,9 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowLeft") showPrev();
 });
 
-// Only close lightbox when clicking X button, not blank space
-// (Blank space clicks now do nothing)
-lightbox.addEventListener("click", (e) => {
-  // Do nothing if user clicks outside image or controls
-  // Closing is only done via X button
-});
-
 // Swipe support
 let startX = 0;
 let endX = 0;
-
 lightboxImg.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
 lightboxImg.addEventListener("touchmove", e => { endX = e.touches[0].clientX; });
 lightboxImg.addEventListener("touchend", e => {
@@ -572,24 +631,32 @@ lightboxImg.addEventListener("touchend", e => {
   endX = 0;
 });
 
-// Fullscreen toggle
+// =====================
+// Fullscreen toggle (desktop only)
+// =====================
 const fullscreenBtn = document.getElementById("fullscreen-toggle");
 
-fullscreenBtn.addEventListener("click", () => {
+function toggleFullscreen() {
   if (!document.fullscreenElement) {
     lightbox.requestFullscreen();
-    fullscreenBtn.textContent = "Exit\nFull\nScreen"; // 3 lines
+    fullscreenBtn.textContent = "Exit\nFull\nScreen";
   } else {
     document.exitFullscreen();
-    fullscreenBtn.textContent = "Full\nScreen";        // 2 lines
+    fullscreenBtn.textContent = "Full\nScreen";
   }
-});
+}
 
-
+if (window.innerWidth >= 1025) {
+  fullscreenBtn.addEventListener("click", toggleFullscreen);
+}
 
 document.addEventListener("fullscreenchange", () => {
-  if (!document.fullscreenElement) {
-    fullscreenBtn.textContent = "Full Screen";
-  }
+  if (!document.fullscreenElement) fullscreenBtn.textContent = "Full\nScreen";
 });
 </script>
+
+
+
+
+
+

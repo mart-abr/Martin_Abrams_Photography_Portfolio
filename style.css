@@ -501,10 +501,11 @@ footer {
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
-/* PC Only */
-@media (max-width: 768px) {
+/* PC Only (show on >= 1025px, hide on tablets & phones) */
+@media (max-width: 1024px) {
   #fullscreen-toggle {
-    display: none;
+    display: none !important;
   }
 }
+
 
