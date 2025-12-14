@@ -315,7 +315,28 @@
 const navButtons = document.querySelectorAll(".nav-btn");
 const groups = document.querySelectorAll(".photo-group");
 const subBar = document.querySelector(".subcategory-bar");
-const HEADER_HEIGHT = 200;
+let HEADER_HEIGHT = 200;
+
+function updateHeaderHeight() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+
+  const height = header.offsetHeight;
+  document.documentElement.style.setProperty(
+    "--header-height",
+    height + "px"
+  );
+
+  HEADER_HEIGHT = height;
+}
+
+/* Run once on load */
+updateHeaderHeight();
+
+/* Run on resize & orientation change (mobile!) */
+window.addEventListener("resize", updateHeaderHeight);
+window.addEventListener("orientationchange", updateHeaderHeight);
+
 
 function showSubBar() {
   subBar.style.display = "flex";
