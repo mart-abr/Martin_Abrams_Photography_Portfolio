@@ -1,516 +1,547 @@
-/* ===================== */
-/* General Body & Text */
+
+/* Dark Cinematic Base - Option B
+   Paste into style.css (overwrite existing) */
+
+/* -------------------------
+   Variables (easy tuning)
+   ------------------------- */
+:root{
+  --bg:#0f0f10;             /* page background */
+  --panel:#141414;          /* gallery panels */
+  --muted:#9aa07a;          /* green used in buttons/accents */
+  --muted-strong:#5a7a2f;   /* darker green */
+  --text:#e8e6df;           /* main text */
+  --subtle:#bfbfb9;         /* captions, secondary */
+  --accent-border: rgba(90,122,47,0.15);
+  --glass: rgba(255,255,255,0.03);
+  --max-width:1200px;
+  --serif: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+  --script: "Brush Script MT", "Dancing Script", cursive; /* fallback script */
+  --header-height: 145px; /* adjust later by JS if needed */
+}
 body {
-  font-family: "Georgia", serif;
-  margin: 0;
-  background-color: #f5f4f0;
-  color: #333;
+  /* remove any other padding-top rules and keep this single line */
+  padding-top: var(--header-height);
 }
 
-h1, h2 {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  color: #4a5d23; /* headings in dark green */
+/* keep hero at zero margin (clean baseline) */
+.hero-section {
+  margin-top: 0;
 }
 
-html {
-  scroll-behavior: smooth;
+/* -------------------------
+   Global
+   ------------------------- */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--serif);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+a{color:var(--muted); text-decoration:none;}
+
+/* -------------------------
+   Page container & sections
+   ------------------------- */
+/* These sections stay constrained */
+#gallery,
+.about-section,
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left:20px;
+  padding-right:20px;
 }
 
 
-/* ===================== */
-/* Header */
-header {
-  background-color: #2e4a1f;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-size: 1.8em;
-  font-weight: bold;
-  font-style: italic;
-  letter-spacing: 2px;
-  color: #a6c48a;
-}
-
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-nav ul li {
-  margin-left: 20px;
-}
-
-nav ul li a {
-  color: #a6c48a;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-nav ul li a:hover {
-  color: #d7d2bc;
-}
-
-/* ===================== */
-/* Hero Section */
-#hero {
-  text-align: center;
-  padding: 20px 20px 30px;
-  background: url('images/landscape1.jpg') center/cover no-repeat;
-  color: #f0f0e3;
-  text-shadow: 2px 2px 4px #1a1a1a;
-  position: relative;
-}
-
-#hero h1 {
-  color: #fff; /* white hero heading */
-  font-size: 2.5em; /* slightly bigger */
-  margin-bottom: 10px;
-}
-
-#hero p {
-  font-size: 1.3em; /* increased size for "Nature Inspired..." */
-  line-height: 1.4;
-  margin: 10px 0 0;
-  color: #f0f0e3;
-  text-shadow: 2px 2px 4px #1a1a1a; /* stronger shadow */
-}
-
-/* ===================== */
-/* Profile Picture */
-.profile-pic {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 50%;
-  border: 3px solid #a6c48a;
-  box-shadow: 0 0 10px #556b2f;
-  margin: 20px auto 0; /* pushed down slightly */
-}
-
-.profile-pic img {
+/* Gallery section must span full width */
+.gallery-section {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
-/* ===================== */
-/* Sections */
-section {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 0 20px;
-  scroll-margin-top: 80px;
-}
 
-/* ===================== */
-/* Gallery Section Background */
-#gallery {
-  background-color: #e0ebd8;
-  padding: 30px 20px;
-  border-radius: 12px;
-}
-
-/* ===================== */
-/* Gallery Categories */
-.categories {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.category-btn,
-.subcategory-btn {
-  background-color: transparent;
-  border: 2px solid #a6c48a;
-  border-radius: 25px;
-  color: #4a5d23;
-  padding: 8px 16px;
-  margin: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.category-btn.active,
-.subcategory-btn.active,
-.category-btn:hover,
-.subcategory-btn:hover {
-  background-color: #a6c48a;
-  color: #f5f4f0;
-}
-
-/* ===================== */
-/* Photo Grid */
-.photos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding-top: 20px;
-}
-
-/* ===================== */
-/* Photo Groups (Subcategories) */
-.photo-group {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 28px 0;             /* equal space above & below photos */
-  border-top: 1px solid #b0c28c; /* single line */
-  margin-bottom: 0;             /* remove extra gap under group */
-}
-
-@media (max-width: 768px) {
-  .photo-group {
-    padding: 20px 0;           /* slightly smaller spacing on tablets */
-  }
-}
-
-@media (max-width: 480px) {
-  .photo-group {
-    padding: 16px 0;           /* smaller spacing on mobile */
-  }
-}
-
-/* ===================== */
-/* Individual Photo Item */
-.photo-item {
-  width: 230px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 8px #bbb;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-  display: inline-block;
-  background: #fff;
-}
-
-.photo-item img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  display: block;
-}
-
-.photo-item .caption {
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: 5px;
-  display: block;
-  text-align: center;
-  background: transparent;
-  padding: 4px 5px;
-}
-
-/* ===================== */
-/* Placeholder Styles */
-.photo-item.placeholder {
-  opacity: 0.6;
-  border: 2px dashed #a6c48a;
-}
-
-.photo-item.placeholder .caption {
-  font-style: italic;
-  color: #888;
-}
-
-/* ===================== */
-/* Contact & Footer */
-#contact a {
-  color: #4a5d23;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-#contact a:hover {
-  text-decoration: underline;
-}
-
-footer {
-  text-align: center;
-  padding: 20px 0;
-  background-color: #2e4a1f;
-  color: #a6c48a;
-  font-size: 0.9em;
-}
-
-/* ===================== */
-/* Effects (Hover Glow & Lightbox) */
-.photo-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(74, 93, 35, 0.7);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* ===================== */
-/* Lightbox */
-.lightbox {
-  display: none;
+/* -------------------------
+   Header – permanently fixed (SmugMug style)
+   ------------------------- */
+/* ============================================
+   HEADER LAYOUT B1 – Two-row stacked header
+   ============================================ */
+.site-header.two-row {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: #121212; /* fully opaque dark grey */
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* ensure on top of everything */
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  z-index: 1000;
+
+  background: rgba(15,15,16,0.82);
+  backdrop-filter: blur(8px);
+
+  display: flex;
   flex-direction: column;
-  touch-action: pan-y;
+  align-items: center;
+
+  padding: 18px 0 12px; /* balanced vertical spacing */
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.4),
+    0 1px 0 rgba(255,255,255,0.03) inset;
 }
 
-.lightbox.show {
+/* Row 1 — Logo centered */
+.header-top {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  margin: 0;
+  font-family: var(--script);
+  font-size: 2rem;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+/* Row 2 — Categories centered */
+.header-bottom {
   display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* Adjust header height variable for HERO offset */
+:root {
+  --header-height: 200px; /* NEW height for 2-row layout */
+}
+
+/* -------------------------------------
+   Main Category Buttons (nav-btn)
+-------------------------------------- */
+
+.nav-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.8px solid rgba(90,122,47,0.18);
+  padding: 8px 14px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  background: rgba(90,122,47,0.12);
+}
+
+.nav-btn.active,
+.nav-btn.section-active {
+  background: var(--muted);
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow:
+    0 6px 22px rgba(74,93,35,0.12),
+    0 1px 0 rgba(255,255,255,0.02) inset;
+}
+
+
+/* -------------------------------------
+   Subcategory buttons (match nav-btn but slightly smaller)
+-------------------------------------- */
+.sub-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1.6px solid rgba(90,122,47,0.12);
+  padding: 6px 12px;              /* slightly smaller */
+  border-radius: 20px;            /* slightly smaller */
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  font-family: var(--serif);
+  font-size: 0.92rem;             /* slightly smaller font */
+}
+
+.sub-btn:hover,
+.sub-btn.active {
+  background: var(--muted);
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow: 0 4px 18px rgba(74,93,35,0.14),
+              0 1px 0 rgba(255,255,255,0.02) inset;
+}
+
+
+/* -------------------------
+   Hero
+   ------------------------- */
+/* HERO – cinematic green gradient (restored + slightly darker) */
+.hero-section {
+  height: 200px;
+  margin-top: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #48663c 0%,
+      #3c5732 50%,
+      #2f4527 100%
+    );
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.65),
+    inset 0 0 8px rgba(0,0,0,0.25);
+}
+
+
+.hero-text{ text-align:center; color:var(--text) }
+.hero-text h2{
+  margin:0;
+  font-family:var(--script);
+  font-size:2rem;
+  letter-spacing:0.6px;
+}
+.hero-text p{
+  margin:8px 0 0;
+  color:var(--subtle);
+  font-size:1rem;
+  font-family:var(--serif);
+}
+
+/* -------------------------
+   Subcategory bar (dynamic)
+   ------------------------- */
+.subcategory-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:6px 0 4px;
+  align-items:center;
+}
+
+.subcategory-bar .sub-btn {
+  background:transparent;
+  color:var(--muted);
+  border:1.6px solid rgba(90,122,47,0.12);
+  padding:7px 12px;
+  border-radius:22px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all .18s ease;
+  font-family:var(--serif);
+}
+.subcategory-bar .sub-btn.active,
+.subcategory-bar .sub-btn:hover {
+  background:var(--muted);
+  color:var(--bg);
+  border-color:transparent;
+}
+
+/* ------------------------------------
+   FIXED LAYOUT — Subcategories in rows
+------------------------------------ */
+
+/* Gallery wrapper (wrapper only) */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  width: 100%;
+}
+
+
+/* Each subcategory = full-width grid row of cards */
+.photo-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  margin-bottom: 28px;
+  grid-auto-flow: row dense;   /* ← ADD THIS */
+  grid-auto-rows: auto;
+}
+
+/* Heading spans whole row */
+.photo-group .subcategory-heading {
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+}
+
+
+/* Photo item (keeps your .photo-item structure compatible) */
+.photo-item{
+  background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01));
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  text-align:center;
+  cursor:pointer;
+  padding-bottom:6px;
+  border:1px solid var(--accent-border);
+  margin-bottom: 14px; /* adjust 10–20px to taste */
+}
+
+.photo-item img{
+  width:100%;
+  height:auto;        /* ← FIXED */
+  object-fit:cover;
+  aspect-ratio: 3/2;  /* ← keeps them uniform (you can change this) */
+  cursor: zoom-in;
+}
+
+.photo-item:hover{ transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.7); }
+.photo-item:hover img{ transform: scale(1.03) }
+
+/* Caption */
+/* Equal-height captions */
+.photo-item .caption{
+  color:var(--subtle);
+  font-size:0.88rem;
+  padding:8px 10px;
+  margin:6px 6px 0;
+  min-height: 44px;   /* 1–2 lines fit neatly */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+/* rounded active thumbnail + subtle pulse (works with your JS active-thumb class) */
+.photo-item img.active-thumb{
+  outline: 3px solid rgba(90,122,47,0.95);
+  outline-offset:4px;
+  border-radius:6px;
+  box-shadow:0 8px 28px rgba(90,122,47,0.08);
+  animation: thumbPulse 1.8s infinite;
+}
+@keyframes thumbPulse{
+  0%{ box-shadow:0 0 0 rgba(90,122,47,0.06) }
+  50%{ box-shadow:0 0 18px rgba(90,122,47,0.12) }
+  100%{ box-shadow:0 0 0 rgba(90,122,47,0.06) }
+}
+
+/* --------------------------------------------
+   C7 POLISH – Cinematic Subcategory Heading
+--------------------------------------------- */
+.subcategory-heading {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0 4px;         /* tighter top & bottom spacing */
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.subcategory-heading span {
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 2px solid rgba(154,160,122,0.55);
+}
+
+
+/* Tighten first group on initial page load */
+#gallery .photo-group:first-of-type {
+    margin-top: 0 !important;
+    padding-top: 4px !important;
+}
+
+
+/* -------------------------
+   Lightbox (full screen viewer)
+   improved look for cinematic theme
+   ------------------------- */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.97);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  transition:opacity .24s ease;
+}
+
+.lightbox.show{ display:flex; opacity:1 }
+.lightbox-img{
+  max-width: 92vw;
+  max-height: 70vh;   /* ← THIS is the key change */
+  width: auto;
+  height: auto;
+  border-radius:10px;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.8),
+              0 1px 0 rgba(255,255,255,0.03) inset;
+  border:6px solid rgba(0,0,0,0.45);
+}
+
+.lightbox-caption{
+  margin-top:14px;
+  color:var(--subtle);
+  font-size:0.96rem;
+  text-align:center;
+}
+
+/* lightbox arrows */
+.lightbox-prev,
+.lightbox-next{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:36px;
+  color:var(--muted);
+  cursor:pointer;
+  user-select:none;
+  z-index:10050;
+  padding:8px;
+}
+.lightbox-prev{ left:22px } .lightbox-next{ right:22px }
+
+.lightbox-prev,
+.lightbox-next{
+  opacity: 0.35;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.lightbox:hover .lightbox-prev,
+.lightbox:hover .lightbox-next{
   opacity: 1;
 }
 
-.lightbox-img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+.lightbox-prev:hover,
+.lightbox-next:hover{
+  transform: translateY(-50%) scale(1.08);
 }
 
-.lightbox-caption {
-  color: #fff;
-  font-size: 1rem;
-  margin-top: 10px;
-  text-align: center;
-  padding: 5px 10px;
-}
-
-.lightbox .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2em;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* ===================== */
-/* Lightbox Arrows - PC */
-@media (min-width: 769px) {
-  .lightbox-prev,
-  .lightbox-next {
-    display: block !important;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 3em;
-    color: #a6c48a;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.3s ease;
-    z-index: 2100;
-  }
-
-  .lightbox-prev:hover,
-  .lightbox-next:hover {
-    color: #4a801f;
-  }
-
-  .lightbox-prev {
-    left: 20px;
-  }
-
-  .lightbox-next {
-    right: 20px;
-  }
-
-  #hero {
-    padding-top: 10px;
-    padding-bottom: 30px;
-  }
-
-  #gallery {
-    padding-top: 20px;
-    padding-bottom: 30px;
-  }
-}
-
-/* ===================== */
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .photo-item {
-    width: 45%;
-    height: auto;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 15px rgba(74, 93, 35, 0.4);
-  }
-
-  .profile-pic {
-    width: 120px;
-    height: 120px;
-    margin-top: 25px; /* pushed down on tablet */
-  }
-
-  header {
-    justify-content: center;
-  }
-
-  nav ul {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .photo-item {
-    width: 90%;
-    box-shadow: 0 4px 10px rgba(74, 93, 35, 0.3);
-  }
-
-  #hero {
-    padding: 10px 10px 20px;
-  }
-
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    margin-top: 20px; /* pushed down on mobile */
-  }
-
-  h1 {
-    font-size: 1.5em;
-  }
-
-  h2 {
-    font-size: 1.2em;
-  }
-
-  .category-btn, .subcategory-btn {
-    padding: 6px 12px;
-    margin: 4px;
-    font-size: 0.85rem;
-  }
-
-  section {
-    scroll-margin-top: 120px;
-  }
-
-  .lightbox-prev,
-  .lightbox-next {
-    display: none !important;
-  }
-}
-
-/* ===================== */
-/* Tablet Lightbox & Layout */
-@media (min-width: 481px) and (max-width: 768px) {
-  .photo-item {
-    width: 48%;
-    margin-bottom: 25px;
-    box-shadow: 0 6px 18px rgba(74, 93, 35, 0.5);
-  }
-
-  .photo-item .caption {
-    font-size: 0.95rem;
-    line-height: 1.3;
-  }
-
-  .profile-pic {
-    width: 130px;
-    height: 130px;
-  }
-
-  #hero {
-    padding: 15px 15px 35px;
-  }
-
-  h1 {
-    font-size: 1.8em;
-  }
-
-  h2 {
-    font-size: 1.4em;
-  }
-
-  .category-btn,
-  .subcategory-btn {
-    padding: 10px 18px;
-    font-size: 1rem;
-    margin: 6px;
-  }
-
-  section {
-    scroll-margin-top: 100px;
-  }
-
-  .lightbox-prev,
-  .lightbox-next {
-    display: block !important;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2.5em;
-    color: #a6c48a;
-    cursor: pointer;
-    user-select: none;
-    z-index: 2100;
-  }
-
-  .lightbox-prev {
-    left: -55px;
-  }
-
-  .lightbox-next {
-    right: -55px;
-  }
-}
-
-#fullscreen-toggle {
-  font-family: "Georgia", serif;
-  position: fixed;           /* floats above the photo */
-  top: 80px;                 /* below the X */
-  right: 30px;               /* aligned with X */
-  width: 100px;              /* fixed circle width */
-  height: 100px;             /* fixed circle height */
-  background-color: rgba(245, 244, 240, 0.8); /* grey inside */
-  border: 2px solid #4a5d23; /* green border */
-  border-radius: 50%;        /* perfect circle */
-  padding: 10px;
-  color: #4a5d23;            /* dark green text */
-  cursor: pointer;
-  font-size: 1rem;
-  z-index: 2200;
-  transition: all 0.3s ease;
-  text-align: center;
-  line-height: 1.2;
-  white-space: pre-line;     /* allows multi-line text */
+.lightbox-content {
   display: flex;
-  justify-content: center;
-  align-items: center;       /* vertically and horizontally centered text */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  flex-direction: column;
+  align-items: center;
+  max-width: 92%;
 }
 
-#fullscreen-toggle:hover {
-  background-color: #4a5d23; /* green fill on hover */
-  color: #fff;               /* white text */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+
+/* close button */
+.lightbox .close{
+  position:fixed;
+  right:22px;
+  top:18px;
+  font-size:32px;
+  color:var(--muted);
+  cursor:pointer;
 }
 
-/* PC Only (show on >= 1025px, hide on tablets & phones) */
-@media (max-width: 1024px) {
-  #fullscreen-toggle {
-    display: none !important;
+/* Lightbox open animation */
+.lightbox.show {
+  animation: lightboxFadeIn 0.28s ease-out;
+}
+
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
+
+
+/* -------------------------
+   About & footer
+   ------------------------- */
+.about-section{
+  margin:30px auto 48px;
+  color:var(--subtle);
+  font-size:1rem;
+}
+.script-heading{
+  font-family:var(--script);
+  font-size:1.5rem;
+  color:var(--text);
+  margin-bottom:10px;
+}
+.site-footer{
+  padding:26px 20px;
+  color:var(--subtle);
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.02);
+}
+
+/* -------------------------
+   Responsive tweaks
+   ------------------------- */
+@media (max-width:920px){
+  .hero-section{ height:220px }
+  .logo{ font-size:1.5rem }
+}
+
+/* STEP 7.01 — Lightbox interaction cues */
+.lightbox {
+  cursor: zoom-out;
+}
+
+.lightbox-img {
+  cursor: default;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  cursor: pointer;
+}
+
+/* STEP 7B.01 — Zoomable lightbox image */
+
+.lightbox-img {
+  transition: transform 0.25s ease;
+}
+
+.lightbox-img.zoomed {
+  transform: scale(1.8);
+  cursor: grab;
+}
+
+.lightbox-img.zoomed:active {
+  cursor: grabbing;
+}
+
+/* STEP 7D.04 — Lightbox zoom cue */
+
+.zoom-hint {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+/* Hide hint once zoomed */
+.lightbox-img.zoomed + .zoom-hint {
+  opacity: 0;
+}
+
 
 
