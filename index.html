@@ -522,6 +522,34 @@ prevBtn.addEventListener("click", (e) => {
   showPrev();
 });
 
+/* STEP 7E.01 — Touch swipe support (mobile & tablet) */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+lightbox.addEventListener("touchstart", (e) => {
+  if (!lightbox.classList.contains("show")) return;
+  touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+lightbox.addEventListener("touchend", (e) => {
+  if (!lightbox.classList.contains("show")) return;
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+  const swipeDistance = touchEndX - touchStartX;
+
+  if (Math.abs(swipeDistance) < 50) return; // ignore tiny swipes
+
+  if (swipeDistance < 0) {
+    showNext(); // swipe left
+  } else {
+    showPrev(); // swipe right
+  }
+}
+
 
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) {
